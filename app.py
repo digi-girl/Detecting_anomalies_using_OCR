@@ -2,8 +2,10 @@ import os
 import subprocess
 from flask import Flask, render_template, request
 from flask import Flask,render_template,request,redirect,url_for,flash
+from flask import Flask,request,jsonify,render_template
 import sqlite3 as sql
-
+import subprocess
+import getData
 from sqlalchemy import true
 app = Flask(__name__, template_folder="templtes")
 path = os.path.dirname(os.path.abspath(__file__))
@@ -96,7 +98,6 @@ def loadSms():
 
 @app.route("/")
 def Page():
-    subprocess.call(["python","Task_scheduler.ipynb"], shell=True)
     return render_template("mainLoginPage.html")
 
 # Banque Pages
@@ -113,11 +114,29 @@ def owner():
     return render_template("Banque/banque_populaire.html", variable=ownerEmail, residents=len(id_list), workers=len(worker_List))
 
 
-@app.route("/createAccountManager")
-def AccountManager():
-    return render_template("Owner/registerManager.html")
+@app.route("/Physiques")
+def get():
+    ObjectData=getData.getDatas()
+    aData=ObjectData.getAllData()
+    if len(aData):
+        response=jsonify({
+            "result":aData,
+            "status":200,
+        })
+    else:
+        response=jsonify({
+            "result":[],
+            "status":400,
+        })
+    return render_template('Banque/personnes_physiques.html',resp=aData)
 
-
+@app.route("/espace/<id>")
+def get_info_id(id):
+    ObjectData=getData.getDatas()
+    aData=ObjectData.getOne(id)
+    aData2=ObjectData.get_doc_user(id)
+    return render_template("espaces.html",info=aData,info_docs=aData2)
+    
 @app.route("/sendMessage")
 def sendMessageManager():
     global ownerEmail

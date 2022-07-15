@@ -1,0 +1,176 @@
+{% extends "Banque/banque_populaire.html" %}
+{% block css %}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>Banque populaire</title>
+
+<!-- Custom fonts for this template-->
+<link href="{{url_for('static',filename='vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+<link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+
+    <!-- Custom styles for this page -->
+<link href="{{url_for('static',filename='vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+
+<!-- Custom styles for this template-->
+<link href="{{url_for('static',filename='css/sb-admin-2.min.css')}}" rel="stylesheet">
+
+{% endblock %}
+
+{% block sidenavbar %}
+<!-- Sidebar -->
+<ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/Banque">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-building"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Banque populaire<sup></sup></div>
+    </a>
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0" style="background-color: orangered;">
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" href="/Banque">
+            <i class="fas fa-home"></i>
+            <span>Acceuil</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Gestion de client
+    </div>
+    <!-- Nav Item - Profile -->
+    <li class="nav-item">
+        <a class="nav-link" href="/profile">
+            <i class="fas fa-fw fa-user-tie"></i>
+            <span>Profile</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="/Commerçant">
+            <i class="fas fa-fw fa-calendar-week"></i>
+            <span>Commerçant</span></a>
+    </li>
+    <!-- Nav Item - Login -->
+    <li class="nav-item">
+        <a class="nav-link" href="/Profession">
+            <i class="fas fa-fw fa-bars"></i>
+            <span>Profession libérale</span></a>
+    </li>
+    <!-- Nav Item - Tables -->
+    <li class="nav-item">
+        <a class="nav-link" href="/Files">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Fichiers traités</span></a>
+    </li>
+    <!-- Nav Item - Forgot Password -->
+    <li class="nav-item">
+        <a class="nav-link" href="/changepasswordowner">
+            <i class="fas fa-fw fa-key"></i>
+            <span>Changer le mot de passe</span></a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        Messages
+    </div>
+    <!-- Nav Item - Register -->
+    <li class="nav-item">
+        <a class="nav-link" href="/sendMessage">
+            <i class="fas fa-fw fa-sms"></i>
+            <span>Messages envoyés</span></a>
+    </li>
+    <!-- Nav Item - Forgot Password -->
+    <li class="nav-item">
+        <a class="nav-link" href="/recieveMessage">
+            <i class="fas fa-fw fa-envelope-open"></i>
+            <span>Messages reçus</span></a>
+    </li>
+    <hr class="sidebar-divider">
+    <div class="sidebar-heading">
+        Logout
+    </div>
+    <li class="nav-item">
+        <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider d-none d-md-block">
+
+    <!-- Sidebar Toggler (Sidebar) -->
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+    </div>
+
+</ul>
+<!-- End of Sidebar -->
+{% endblock %}
+{% block body %}
+<div class="container">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-2 text-gray-800">Commerçants</h1>
+    <p class="mb-4">Vous pouvez voir tous les documents des personnes physiques de type commerçant
+        qui ne sont pas encore traités
+    </p>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Commerçants</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th> ID_CLIENT</th>
+                            <th>NOM</th>
+                            <th>PRENOM</th>
+                            <th>AGENCE</th>
+                            <th>ETAT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for row in resp%}
+                        <tr>
+                            <th><a href="espace/{{row[0]}}"> {{row[0]}} </a></th>
+                            <th> {{row[1]}} </th>
+                            <th> {{row[2]}} </th>
+                            <th> {{row[3]}} </th>
+                            <th> {{row[4]}} </th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block script %}
+<!-- Bootstrap core JavaScript-->
+<script src="{{url_for('static',filename='vendor/jquery/jquery.min.js')}}"></script>
+<script src="{{url_for('static',filename='vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+<!-- Core plugin JavaScript-->
+<script src="{{url_for('static',filename='vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+<!-- Custom scripts for all pages-->
+<script src="{{url_for('static',filename='js/sb-admin-2.min.js')}}"></script>
+
+<!-- Page level plugins -->
+<script src="{{url_for('static',filename='vendor/datatables/jquery.dataTables.min.js')}}"></script>
+<script src="{{url_for('static',filename='vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
+
+<!-- Page level custom scripts -->
+<script src="{{url_for('static',filename='js/demo/datatables-demo.js')}}"></script>
+{% endblock %}
